@@ -8,6 +8,7 @@ print("Initializing")
 
 DIM = 720
 SPEED = 1
+SEPERATOR = 16
 BG_COLOR = "#EAE2B7"
 WHITE = "#F6F2DE"
 GRAY = "#5E412F"
@@ -156,9 +157,9 @@ class Cell:
         self.chosen = []
 
     def render(self, surf, size, offset, color=WHITE):
-        weight = 0.5
-        x = self.x * size + offset.x + self.x // 3 * weight * 4
-        y = self.y * size + offset.y + self.y // 3 * weight * 4
+        weight = 0.2
+        x = self.x * size + offset.x + self.x // 3 * weight * SEPERATOR
+        y = self.y * size + offset.y + self.y // 3 * weight * SEPERATOR
 
         pygame.draw.rect(
             surf,

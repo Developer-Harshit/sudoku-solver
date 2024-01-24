@@ -6,30 +6,31 @@ from random import random, randint
 
 print("Initializing")
 
-DIM = 720
+DIM = 800
 SPEED = 1
-SEPERATOR = 16
-BG_COLOR = "#EAE2B7"
-WHITE = "#F6F2DE"
-GRAY = "#5E412F"
-BLACK = "#323031"
-ORANGE = "#F07818"
-CYAN = "#78C0A8"
+SEP1 = 1
+SEP2 = 5
+GRAY = "#764f51"
+CYAN = "#9AD0BE"
+WHITE = "#F7F5B2"
+BLACK = "#171617"
 YELLOW = "#F0A830"
+ORANGE = "#F07818"
+BG_COLOR = "#DAD5BA"
 
 
 def clamp(n, minn, maxn):
     return max(min(maxn, n), minn)
 
 
-def generate_text(txt_list, fonsize=32):
+def generate_text(txt_list, fonsize=32, color=BLACK):
     if not pygame.font.get_init():
         pygame.font.init()
     font = pygame.font.Font("mono.ttf", fonsize)
     text = []
 
     for txt in txt_list:
-        text.append(font.render(str(txt), True, BLACK))
+        text.append(font.render(str(txt), True, color))
     return text
 
 
@@ -121,6 +122,7 @@ class Solver:
             return
         curr.chosen = []
         prev = self.closedset.pop()
+        self.program.current = prev
         prev.value = 0
 
     def solve(self):
@@ -157,14 +159,13 @@ class Cell:
         self.chosen = []
 
     def render(self, surf, size, offset, color=WHITE):
-        weight = 0.2
-        x = self.x * size + offset.x + self.x // 3 * weight * SEPERATOR
-        y = self.y * size + offset.y + self.y // 3 * weight * SEPERATOR
+        x = self.x * size + offset.x + self.x // 3 * SEP2
+        y = self.y * size + offset.y + self.y // 3 * SEP2
 
         pygame.draw.rect(
             surf,
             color,
-            (x + weight / 2, y + weight / 2, size - weight, size - weight),
+            (x + SEP1 / 2, y + SEP1 / 2, size - SEP1, size - SEP1),
         )
         fSize = text[self.value].get_size()
 

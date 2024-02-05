@@ -1,36 +1,43 @@
+"""
+This project is programmed by Harshit
+Updated on 2/5/2024 
+"""
+
 import sys
 import pygame
-import pygame.gfxdraw
 from random import random, randint
 
 
 print("Initializing")
 
-DIM = 800
-SPEED = 1
+DIM = 720
 SEP1 = 1
 SEP2 = 5
-GRAY = "#764f51"
-CYAN = "#9AD0BE"
-WHITE = "#F7F5B2"
-BLACK = "#171617"
+SPEED = 1
+
+GRAY = "#5E412F"
+CYAN = "#78C0A8"
+WHITE = "#F6F2DE"
+BLACK = "#323031"
 YELLOW = "#F0A830"
 ORANGE = "#F07818"
-BG_COLOR = "#DAD5BA"
+BG_COLOR = "#EAE2B7"
 
 
 def clamp(n, minn, maxn):
     return max(min(maxn, n), minn)
 
 
-def generate_text(txt_list, fonsize=32, color=BLACK):
+def generate_text(txt_list, factor=32):
+
+    fontsize = int(DIM / factor)
     if not pygame.font.get_init():
         pygame.font.init()
-    font = pygame.font.Font("mono.ttf", fonsize)
+    font = pygame.font.Font("mono.ttf", fontsize)
     text = []
 
     for txt in txt_list:
-        text.append(font.render(str(txt), True, color))
+        text.append(font.render(str(txt), True, BLACK))
     return text
 
 
@@ -42,11 +49,10 @@ msg = generate_text(
         "no solutions,board might be invalid",
         "type any number from 0 to 9 to edit the board",
         "click 'Q' to quit,click 'R' to restart",
-    ],
-    16,
+    ]
 )
 
-text = generate_text(["", 1, 2, 3, 4, 5, 6, 7, 8, 9])
+text = generate_text(["", 1, 2, 3, 4, 5, 6, 7, 8, 9], 22)
 
 
 class Vector:
@@ -236,7 +242,9 @@ class Main:
         txt = msg[vstate]
         size = txt.get_size()
 
-        self.screen.blit(txt, ((DIM / 2 - size[0] / 2, offset + size[1] / 2), size))
+        self.screen.blit(
+            txt, ((DIM / 2 - size[0] / 2, size[1] / 2 + size[1]), size)
+        )
 
     def quit(self):
         print("Exiting")
